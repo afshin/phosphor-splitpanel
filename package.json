@@ -12,7 +12,7 @@
     "phosphor-messaging": "^1.0.5",
     "phosphor-nodewrapper": "^1.0.4",
     "phosphor-properties": "^1.2.0",
-    "phosphor-widget": "git+ssh://git@github.com:afshin/phosphor-widget.git"
+    "phosphor-widget": "git+ssh://git@github.com:afshin/phosphor-widget.git#09411cd74bbcaace01605d0f7c9a6fe2b9869093"
   },
   "devDependencies": {
     "browserify": "^11.0.1",

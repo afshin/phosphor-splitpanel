@@ -23,6 +23,7 @@ import './dragdrop.css';
 
 const PLOT_ID = '1edbdc7a-876c-4549-bcf2-7726b8349a2e'
 
+
 class DraggableWidget extends Widget {
 
   static createNode(): HTMLElement {
@@ -41,19 +42,19 @@ class DraggableWidget extends Widget {
 
   handleEvent(event: Event): void {
     switch (event.type) {
-      case 'dragstart':
-        this._evtDragStart(<DragEvent>event);
-        break;
-      case 'dragend':
-        this._evtDragEnd(<DragEvent>event);
-        break;
+    case 'dragstart':
+      this._evtDragStart(<DragEvent>event);
+      break;
+    case 'dragend':
+      this._evtDragEnd(<DragEvent>event);
+      break;
     }
   }
 
   protected onAfterAttach(msg: Message): void {
     super.onAfterAttach(msg);
-    this.node.addEventListener('dragstart', this);;
-    this.node.addEventListener('dragend', this);;
+    this.node.addEventListener('dragstart', this);
+    this.node.addEventListener('dragend', this);
   }
 
   protected onBeforeDetach(msg: Message): void {
@@ -71,22 +72,23 @@ class DraggableWidget extends Widget {
   }
 }
 
+
 class DroppableWidget extends Widget {
 
   handleEvent(event: Event): void {
     switch (event.type) {
-      case 'dragenter':
-        this._evtDragEnter(<DragEvent>event);
-        break;
-      case 'dragleave':
-        this._evtDragLeave(<DragEvent>event);
-        break;
-      case 'dragover':
-        this._evtDragOver(<DragEvent>event);
-        break;
-      case 'drop':
-        this._evtDrop(<DragEvent>event);
-        break;
+    case 'dragenter':
+      this._evtDragEnter(<DragEvent>event);
+      break;
+    case 'dragleave':
+      this._evtDragLeave(<DragEvent>event);
+      break;
+    case 'dragover':
+      this._evtDragOver(<DragEvent>event);
+      break;
+    case 'drop':
+      this._evtDrop(<DragEvent>event);
+      break;
     }
   }
 
@@ -140,6 +142,7 @@ class DroppableWidget extends Widget {
   }
 }
 
+
 function createDroppable(): DroppableWidget {
   let widget = new DroppableWidget();
   widget.addClass('content');
@@ -147,12 +150,14 @@ function createDroppable(): DroppableWidget {
   return widget;
 }
 
+
 function createList(): Widget {
   let widget = new Widget();
   widget.addClass('content');
   widget.addClass('blue');
   return widget;
 }
+
 
 function populateList(list: Widget): void {
   let plot = document.body.removeChild(document.getElementById(PLOT_ID));
@@ -176,6 +181,7 @@ function populateList(list: Widget): void {
   list.addChild(itemThree);
 }
 
+
 function main(): void {
   let list = createList();
   let droppable = createDroppable();
@@ -189,5 +195,6 @@ function main(): void {
   attachWidget(panel, document.body);
   window.onresize = () => panel.update();
 }
+
 
 window.onload = main;
