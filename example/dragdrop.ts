@@ -27,6 +27,8 @@ import './dragdrop.css';
 
 const PLOT_ID = '1edbdc7a-876c-4549-bcf2-7726b8349a2e'
 
+const MIME_TYPE = 'application/x-phosphor-draggable';
+
 
 class DraggableWidget extends Widget {
 
@@ -68,7 +70,7 @@ class DraggableWidget extends Widget {
   }
 
   private _evtDragStart(event: DragEvent): void {
-    setDropData(event, this._factory);
+    setDropData(event, MIME_TYPE, this._factory);
   }
 
   private _evtDragEnd(event: DragEvent): void {
@@ -111,7 +113,7 @@ class DroppableWidget extends Widget {
   }
 
   private _evtDragEnter(event: DragEvent): void {
-    let factory = getDropData(event);
+    let factory = getDropData(event, MIME_TYPE);
     event.dataTransfer.dropEffect = factory ? 'copy' : 'none';
     event.preventDefault();
     event.stopPropagation();
@@ -125,7 +127,7 @@ class DroppableWidget extends Widget {
   }
 
   private _evtDragOver(event: DragEvent): void {
-    let factory = getDropData(event);
+    let factory = getDropData(event, MIME_TYPE);
     if (!factory) {
       this.removeClass('drag-over');
       return;
@@ -138,7 +140,7 @@ class DroppableWidget extends Widget {
     event.preventDefault();
     event.stopPropagation();
     this.removeClass('drag-over');
-    let factory = getDropData(event);
+    let factory = getDropData(event, MIME_TYPE);
     if (factory) {
       this.removeChildAt(0);
       this.addChild(factory());
