@@ -12,11 +12,15 @@ SplitPanel
 } from '../lib/index';
 
 import {
+  getDropData, setDropData, clearDropData
+} from 'phosphor-domutil';
+
+import {
 Message
 } from 'phosphor-messaging';
 
 import {
-Widget, attachWidget
+Widget
 } from 'phosphor-widget';
 
 import './dragdrop.css';
@@ -64,11 +68,11 @@ class DraggableWidget extends Widget {
   }
 
   private _evtDragStart(event: DragEvent): void {
-    Widget.setDragMimeData(event, this._factory);
+    setDropData(event, this._factory);
   }
 
   private _evtDragEnd(event: DragEvent): void {
-    Widget.clearDragMimeData();
+    clearDropData(event);
   }
 }
 
@@ -107,7 +111,7 @@ class DroppableWidget extends Widget {
   }
 
   private _evtDragEnter(event: DragEvent): void {
-    let factory = Widget.getDragMimeData(event);
+    let factory = getDropData(event);
     event.dataTransfer.dropEffect = factory ? 'copy' : 'none';
     event.preventDefault();
     event.stopPropagation();
@@ -121,7 +125,7 @@ class DroppableWidget extends Widget {
   }
 
   private _evtDragOver(event: DragEvent): void {
-    let factory = Widget.getDragMimeData(event);
+    let factory = getDropData(event);
     if (!factory) {
       this.removeClass('drag-over');
       return;
@@ -134,7 +138,7 @@ class DroppableWidget extends Widget {
     event.preventDefault();
     event.stopPropagation();
     this.removeClass('drag-over');
-    let factory = Widget.getDragMimeData(event);
+    let factory = getDropData(event);
     if (factory) {
       this.removeChildAt(0);
       this.addChild(factory());
@@ -174,7 +178,7 @@ function populateList(list: Widget): void {
     return widget;
   });
   itemTwo.addClass('green');
-  let itemThree = new DraggableWidget('bad mime type', null);
+  let itemThree = new DraggableWidget('null factory', null);
   itemThree.addClass('red');
   list.addChild(itemOne);
   list.addChild(itemTwo);
@@ -192,7 +196,7 @@ function main(): void {
   SplitPanel.setStretch(droppable, 5);
   populateList(list);
   panel.id = 'main';
-  attachWidget(panel, document.body);
+  Widget.attach(panel, document.body);
   window.onresize = () => panel.update();
 }
 
