@@ -12,7 +12,7 @@ SplitPanel
 } from '../lib/index';
 
 import {
-  getDropData, setDropData, clearDropData
+  getDragData, setDragData, clearDragData
 } from 'phosphor-domutil';
 
 import {
@@ -70,11 +70,11 @@ class DraggableWidget extends Widget {
   }
 
   private _evtDragStart(event: DragEvent): void {
-    setDropData(event, MIME_TYPE, this._factory);
+    setDragData(event, MIME_TYPE, this._factory);
   }
 
   private _evtDragEnd(event: DragEvent): void {
-    clearDropData(event);
+    clearDragData(event);
   }
 }
 
@@ -113,7 +113,7 @@ class DroppableWidget extends Widget {
   }
 
   private _evtDragEnter(event: DragEvent): void {
-    let factory = getDropData(event, MIME_TYPE);
+    let factory = getDragData(event, MIME_TYPE);
     event.dataTransfer.dropEffect = factory ? 'copy' : 'none';
     event.preventDefault();
     event.stopPropagation();
@@ -127,7 +127,7 @@ class DroppableWidget extends Widget {
   }
 
   private _evtDragOver(event: DragEvent): void {
-    let factory = getDropData(event, MIME_TYPE);
+    let factory = getDragData(event, MIME_TYPE);
     if (!factory) {
       this.removeClass('drag-over');
       return;
@@ -140,7 +140,7 @@ class DroppableWidget extends Widget {
     event.preventDefault();
     event.stopPropagation();
     this.removeClass('drag-over');
-    let factory = getDropData(event, MIME_TYPE);
+    let factory = getDragData(event, MIME_TYPE);
     if (factory) {
       this.removeChildAt(0);
       this.addChild(factory());
